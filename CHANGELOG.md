@@ -26,6 +26,7 @@ All notable changes to this project are tracked here, most recent first.
 - App renamed/branded as "Onward", with the title styled in bold yellow ochre.
 
 ### Changed
+- "+ Add Task" button moved into the header row (next to the notification/theme icons) to close the empty gap below the title; on mobile it still drops to its own full-width line for tappability.
 - "+ Add Task" button moved to the right of the toolbar and recolored to yellow ochre.
 - Edit, Delete, Duplicate, and Details controls changed from text buttons to icon buttons with hover tooltips.
 - Replaced the original "Sort by" control with a dedicated category Filter control (sort and category filter are now separate controls).

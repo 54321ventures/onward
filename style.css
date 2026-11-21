@@ -67,6 +67,7 @@ body {
 
 .header-actions {
   display: flex;
+  align-items: center;
   gap: 8px;
 }
 
@@ -151,15 +152,6 @@ h1 {
 
 .icon-btn-danger {
   color: var(--danger);
-}
-
-/* Toolbar */
-.toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-bottom: 16px;
 }
 
 .btn-primary {
@@ -682,8 +674,23 @@ h1 {
     font-size: 1.3rem;
   }
 
+  .app-header {
+    flex-wrap: wrap;
+  }
+
+  .header-actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    width: 100%;
+  }
+
   .btn-primary {
     width: 100%;
+  }
+
+  #open-add-btn.btn-primary {
+    flex-basis: 100%;
+    margin-top: 8px;
   }
 
   .controls {
