@@ -60,7 +60,6 @@ body {
 .app-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 10px;
   margin-bottom: 14px;
 }
@@ -82,6 +81,7 @@ h1 {
   font-size: 1.75rem;
   letter-spacing: -0.03em;
   color: #cc7722;
+  margin-right: auto;
 }
 
 /* Reminder banner */
@@ -676,12 +676,6 @@ h1 {
 
   .app-header {
     flex-wrap: wrap;
-  }
-
-  .header-actions {
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    width: 100%;
   }
 
   .btn-primary {

@@ -36,6 +36,7 @@ All notable changes to this project are tracked here, most recent first.
 - Duplicate-task naming: started as `Task (copy)`, changed to `Task v2`/`v3`/... , then simplified to a plain trailing number: `Task 2`, `Task 3`, etc., auto-incrementing from the highest existing copy of that task.
 
 ### Fixed
+- Mobile header still showing an empty gap below the title: the icon-button group was stretching to its own full-width row before wrapping, pushing the title and icons apart. The "+ Add Task" button is now a direct header-row item (instead of nested inside the icon-button group), so on mobile only that button wraps to its own full-width line while the title and icons stay flush on the first line.
 - Invisible "Save" button in the Add/Edit modal caused by a CSS specificity clash overriding the primary button color.
 - Reminder banner and (now-removed) bulk-action bar briefly showing as empty boxes on load because `display: flex` rules were overriding the native `[hidden]` attribute; fixed with a global `[hidden] { display: none !important; }` rule.
 - Notification toggle going stale: the bell icon only read a saved on/off flag and never rechecked the browser's actual notification permission, so it could keep showing "enabled" indefinitely after permission was revoked or never truly granted. It now resyncs with `Notification.permission` on every load/toggle, and gives a clearer message when notifications are blocked at the browser level.
