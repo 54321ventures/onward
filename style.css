@@ -157,6 +157,7 @@ h1 {
 .toolbar {
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 8px;
   margin-bottom: 16px;
 }
@@ -173,6 +174,15 @@ h1 {
 
 .btn-primary:hover {
   background: var(--primary-hover);
+}
+
+#open-add-btn.btn-primary {
+  border-color: #cc7722;
+  background: #cc7722;
+}
+
+#open-add-btn.btn-primary:hover {
+  background: #b3661d;
 }
 
 /* Search bar */
