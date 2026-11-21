@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onward</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <div class="app-header">
+      <h1 class="app-title">Onward</h1>
+      <div class="header-actions">
+        <button type="button" id="notify-toggle-btn" class="icon-btn" title="Enable due-task reminders" aria-label="Enable due-task reminders"></button>
+        <button type="button" id="theme-toggle-btn" class="icon-btn" title="Switch to dark mode" aria-label="Switch to dark mode"></button>
+      </div>
+    </div>
+
+    <div id="reminder-banner" class="reminder-banner" hidden></div>
+
+    <div class="toolbar">
+      <button type="button" id="open-add-btn" class="btn-primary">+ Add Task</button>
+    </div>
+
+    <div class="search-bar">
+      <input type="search" id="search-input" placeholder="Search tasks...">
+    </div>
+
+    <div class="controls">
+      <div class="filter-group">
+        <span class="filter-label">Status:</span>
+        <div class="filters" id="status-filters">
+          <button class="filter-btn active" data-filter="All">All</button>
+          <button class="filter-btn" data-filter="Active">Active</button>
+          <button class="filter-btn" data-filter="On Hold">On Hold</button>
+          <button class="filter-btn" data-filter="Not Started">Not Started</button>
+          <button class="filter-btn" data-filter="Done">Done</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-label">Due:</span>
+        <div class="filters" id="due-filters">
+          <button class="filter-btn active" data-due="All">All</button>
+          <button class="filter-btn" data-due="Today">Today</button>
+          <button class="filter-btn" data-due="Tomorrow">Tomorrow</button>
+        </div>
+      </div>
+
+      <label class="sort-label">
+        Category:
+        <select id="category-filter-select">
+          <option value="All" selected>All</option>
+          <option value="MSME">MSME</option>
+          <option value="Credit Card">Credit Card</option>
+          <option value="Project">Project</option>
+          <option value="Others">Others</option>
+        </select>
+      </label>
+
+      <label class="sort-label">
+        Sort:
+        <select id="sort-select">
+          <option value="deadline" selected>Deadline</option>
+          <option value="priority">Priority</option>
+          <option value="created">Date Added</option>
+        </select>
+      </label>
+    </div>
+
+    <ul id="todo-list" class="todo-list"></ul>
+
+    <p id="empty-state" class="empty-state" hidden>Nothing here yet. Click "+ Add Task" to get started!</p>
+
+    <footer class="app-footer">
+      <button type="button" id="export-csv-btn" class="link-btn">Export CSV</button>
+    </footer>
+  </main>
+
+  <dialog id="task-modal" class="task-modal">
+    <form id="task-form" class="task-form">
+      <h2 id="modal-heading">Add Task</h2>
+
+      <label class="field">
+        <span>Title *</span>
+        <input type="text" id="field-title" required>
+      </label>
+
+      <label class="field">
+        <span>Description</span>
+        <textarea id="field-description" rows="2" placeholder="Details about this task"></textarea>
+      </label>
+
+      <fieldset class="subtask-fieldset">
+        <legend>Sub-tasks</legend>
+        <div class="subtask-add-row">
+          <input type="text" id="subtask-input" placeholder="Add a sub-task">
+          <button type="button" id="subtask-add-btn">Add</button>
+        </div>
+        <ul id="subtask-edit-list" class="subtask-edit-list"></ul>
+      </fieldset>
+
+      <fieldset class="subtask-fieldset">
+        <legend>Attachment links</legend>
+        <div class="subtask-add-row">
+          <input type="url" id="link-input" placeholder="https://...">
+          <button type="button" id="link-add-btn">Add</button>
+        </div>
+        <ul id="link-edit-list" class="subtask-edit-list"></ul>
+      </fieldset>
+
+      <div class="field-grid">
+        <label class="field">
+          <span>Priority</span>
+          <select id="field-priority">
+            <option value="High">High</option>
+            <option value="Medium" selected>Medium</option>
+            <option value="Low">Low</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Deadline</span>
+          <input type="date" id="field-deadline">
+        </label>
+
+        <label class="field">
+          <span>Category</span>
+          <select id="field-category">
+            <option value="MSME">MSME</option>
+            <option value="Credit Card">Credit Card</option>
+            <option value="Project">Project</option>
+            <option value="Others" selected>Others</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Requested by / PIC</span>
+          <input type="text" id="field-pic" placeholder="Name" list="pic-datalist">
+          <datalist id="pic-datalist"></datalist>
+        </label>
+
+        <label class="field">
+          <span>Status</span>
+          <select id="field-status">
+            <option value="Active" selected>Active</option>
+            <option value="On Hold">On Hold</option>
+            <option value="Not Started">Not Started</option>
+            <option value="Done">Done</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Repeat</span>
+          <select id="field-recurrence">
+            <option value="None" selected>Does not repeat</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+          </select>
+        </label>
+      </div>
+
+      <label class="field">
+        <span>Remarks</span>
+        <textarea id="field-remarks" rows="2" placeholder="Any notes"></textarea>
+      </label>
+
+      <div id="activity-section" class="activity-section" hidden>
+        <span class="field-section-title">Activity</span>
+        <ul id="activity-list" class="activity-list"></ul>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" id="modal-cancel-btn">Cancel</button>
+        <button type="submit" class="btn-primary" id="modal-save-btn">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="duplicate-modal" class="task-modal">
+    <form id="duplicate-form" class="task-form">
+      <h2>Duplicate Task</h2>
+
+      <label class="field">
+        <span>New deadline</span>
+        <input type="date" id="duplicate-date-input">
+      </label>
+
+      <div class="modal-actions">
+        <button type="button" id="duplicate-cancel-btn">Cancel</button>
+        <button type="submit" class="btn-primary">Duplicate</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
