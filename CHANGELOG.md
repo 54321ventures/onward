@@ -2,6 +2,11 @@
 
 All notable changes to this project are tracked here, most recent first.
 
+## 2026-11-23
+
+### Changed
+- Category field in the Add/Edit form changed from a fixed MSME/Credit Card/Project/Others dropdown to a free-text input with autocomplete suggestions (previously used categories, plus the four original defaults), matching the existing PIC field pattern. The Category filter dropdown now lists whatever distinct categories actually exist in your tasks instead of a hardcoded list.
+
 ## 2026-11-21
 
 ### Added

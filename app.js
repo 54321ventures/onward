@@ -65,6 +65,7 @@ const fieldPriority = document.getElementById('field-priority');
 const fieldDeadline = document.getElementById('field-deadline');
 const fieldCategory = document.getElementById('field-category');
 const fieldPic = document.getElementById('field-pic');
+const categoryDatalist = document.getElementById('category-datalist');
 const fieldStatus = document.getElementById('field-status');
 const fieldRecurrence = document.getElementById('field-recurrence');
 const fieldRemarks = document.getElementById('field-remarks');
@@ -111,7 +112,7 @@ function normalizeTodo(item) {
       : [],
     priority: ['High', 'Medium', 'Low'].includes(item.priority) ? item.priority : 'Medium',
     deadline: typeof item.deadline === 'string' ? item.deadline : '',
-    category: CATEGORY_COLORS.hasOwnProperty(item.category) ? item.category : 'Others',
+    category: typeof item.category === 'string' && item.category.trim() ? item.category.trim() : 'Others',
     pic: typeof item.pic === 'string' ? item.pic : '',
     links,
     remarks: typeof item.remarks === 'string' ? item.remarks : '',
@@ -409,6 +410,42 @@ function refreshPicDatalist() {
   });
 }
 
+// --- Category autocomplete + filter options ---
+function distinctCategories() {
+  const defaults = ['MSME', 'Credit Card', 'Project', 'Others'];
+  const used = Array.from(new Set(todos.map(t => t.category).filter(Boolean)));
+  const extras = used.filter(c => !defaults.includes(c)).sort();
+  return [...defaults, ...extras];
+}
+
+function refreshCategoryDatalist() {
+  categoryDatalist.innerHTML = '';
+  distinctCategories().forEach(name => {
+    const opt = document.createElement('option');
+    opt.value = name;
+    categoryDatalist.appendChild(opt);
+  });
+}
+
+function refreshCategoryFilterOptions() {
+  const names = distinctCategories();
+  categoryFilterSelect.innerHTML = '';
+  const allOpt = document.createElement('option');
+  allOpt.value = 'All';
+  allOpt.textContent = 'All';
+  categoryFilterSelect.appendChild(allOpt);
+  names.forEach(name => {
+    const opt = document.createElement('option');
+    opt.value = name;
+    opt.textContent = name;
+    categoryFilterSelect.appendChild(opt);
+  });
+  if (categoryFilter !== 'All' && !names.includes(categoryFilter)) {
+    categoryFilter = 'All';
+  }
+  categoryFilterSelect.value = categoryFilter;
+}
+
 // --- Search ---
 function matchesSearch(todo, query) {
   if (!query) return true;
@@ -467,6 +504,8 @@ function render() {
 
   renderReminderBanner();
   refreshPicDatalist();
+  refreshCategoryDatalist();
+  refreshCategoryFilterOptions();
 }
 
 function buildTodoItem(todo, today) {
@@ -990,7 +1029,7 @@ taskForm.addEventListener('submit', e => {
     links: modalLinks.filter(l => l.url.trim()),
     priority: fieldPriority.value,
     deadline: fieldDeadline.value,
-    category: fieldCategory.value,
+    category: fieldCategory.value.trim() || 'Others',
     pic: fieldPic.value.trim(),
     recurrence: fieldRecurrence.value,
     remarks: fieldRemarks.value.trim()

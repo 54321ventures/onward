@@ -123,12 +123,8 @@
 
         <label class="field">
           <span>Category</span>
-          <select id="field-category">
-            <option value="MSME">MSME</option>
-            <option value="Credit Card">Credit Card</option>
-            <option value="Project">Project</option>
-            <option value="Others" selected>Others</option>
-          </select>
+          <input type="text" id="field-category" placeholder="e.g. MSME" list="category-datalist">
+          <datalist id="category-datalist"></datalist>
         </label>
 
         <label class="field">
